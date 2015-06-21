@@ -1,0 +1,17 @@
+[Unit]
+Description={{ service_description }}
+After={{ service_after }}.service
+Requires={{ service_requires }}.service
+
+[Service]
+TimeoutStartSec={{ service_timeoutstartsec }}
+Restart={{ service_restart }}
+ExecStartPre=-/usr/bin/docker kill {{ service_name }}
+ExecStartPre=-/usr/bin/docker rm {{ service_name }}
+ExecStartPre=/usr/bin/docker pull {{ docker_name }}
+ExecStart=/usr/bin/docker run --name {{ service_name }} -p {{ service_ports }}  {{ docker_name }}
+ExecStop=/usr/bin/docker stop {{ service_name }}
+TimeoutStopSec = {{ service_timeoutstopsec }}
+[Install]
+WantedBy={{ service_wantedby }}.target
+

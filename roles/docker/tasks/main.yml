@@ -1,0 +1,21 @@
+---
+
+- name: Install docker
+  yum: name={{ item  }} state=latest
+  with_items:
+    - docker
+    - docker-python
+    - vim
+
+
+- name: Start Docker daemon service
+  service: name=docker state=started enabled=yes
+
+
+- name: Create docker monit
+  copy: src=monit dest=/etc/monit.d/docker
+
+
+- name: Reload monit configurarion
+  service: name=monit state=reloaded
+

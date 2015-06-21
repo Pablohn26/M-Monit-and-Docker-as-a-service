@@ -1,0 +1,45 @@
+---
+
+#- debug: msg= "mmonit_server_ip is {{ mmonit_server_ip }}"
+- debug: msg="{{ hostvars['mmonit_server']['ansible_eth0']['ipv4']['address'] }}"
+
+#- debug: msg="{{ hostvars }}"
+
+#- debug: msg= "{{ hostvars }}"
+
+#- debug: msg="{{ hostvars }}"
+
+
+
+- name: Install epel-release
+  yum: name=epel-release state=latest
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: Install monit
+  yum: name=monit state=latest enablerepo=epel
+
+
+- name: Starting FirewallD
+  service: name=firewalld state=started enabled=yes
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+
+#By default, CentOS 7 block connections to port 2812 (monit web interface port). I do not know why the next does not work with firewalld module
+#- name: Enable connections to monit web interface
+#  firewalld: port={{ monit_port }}/tcp permanent=true state=enabled
+#  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: WORKAROUND Enable connections to monit web interface
+  shell: firewall-cmd --zone=public --add-port=2812/tcp
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: Create /var/lib/monit
+  file: path=/var/lib/monit state=directory
+ 
+
+- name: Create monitrc file
+  template: src=monitrc.j2 dest=/etc/monitrc
+
+- name: Restart monit service
+  service: name=monit state=restarted enabled=yes
+

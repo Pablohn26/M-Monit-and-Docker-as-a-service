@@ -1,0 +1,13 @@
+---
+##MMonit
+m_monit_ip: "{{ hostvars['mmonit_server']['ansible_eth0']['ipv4']['address'] }}"
+m_monit_port: 8080
+m_monit_user: monit
+m_monit_pass: monit
+
+##Monit 
+monit_freq: 1
+monit_port: 2812
+monit_user: admin
+monit_pass: monit
+

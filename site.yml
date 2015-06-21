@@ -1,0 +1,11 @@
+---
+## Start gathering all the facts (thanks saada)
+- hosts: all
+  gather_facts: yes
+
+- include: web.yml
+- include: mmonit.yml
+
+# In the future
+#- include: db.yml
+#- include: storage.yml

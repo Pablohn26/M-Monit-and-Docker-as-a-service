@@ -1,0 +1,4 @@
+MMonit monit SSL http://mmonit.com/wiki/Monit/EnableSSLInMonit
+Mmonit MySQL http://mmonit.com/wiki/MMonit/Setup#database
+Mmonit NTP 
+Fact caching? http://docs.ansible.com/playbooks_variables.html#fact-caching

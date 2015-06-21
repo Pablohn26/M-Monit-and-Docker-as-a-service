@@ -1,0 +1,7 @@
+check process service_{{ service_name }} with pidfile /var/run/docker/{{ service_name }}.pid
+  start program = "/bin/systemctl start  {{ service_name }}.service"
+  stop program = "/bin/systemctl stop  {{ service_name }}.service"
+  if does not exist then alert
+# log to monit.log
+set logfile /var/log/monit_service_{{ service_name }}.log
+

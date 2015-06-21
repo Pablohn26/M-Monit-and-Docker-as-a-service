@@ -1,0 +1,6 @@
+[web]
+web_server ansible_ssh_host=192.168.122.190 ansible_ssh_user=root ansible_ssh_pass=centos
+
+[mmonit]
+mmonit_server ansible_ssh_host=192.168.122.190 ansible_ssh_user=root ansible_ssh_pass=centos
+

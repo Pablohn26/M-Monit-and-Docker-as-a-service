@@ -1,0 +1,9 @@
+---
+
+- name: Install Monit, Docker and Wordpress
+  hosts: web
+  remote_user: root
+  roles:
+  - monit
+  - docker
+  - web

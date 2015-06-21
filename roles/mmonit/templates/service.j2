@@ -1,0 +1,12 @@
+[Unit]
+Description=M/Monit server
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStart=/opt/{{ mmonit_folder }}/bin/mmonit -i
+ExecStop=/opt/{{ mmonit_folder }}/bin/mmonit stop
+TimeoutStopSec=60
+[Install]
+WantedBy=multi-user.target
+

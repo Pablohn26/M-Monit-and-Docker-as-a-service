@@ -1,0 +1,3 @@
+---
+#mmonit_server_ip: "{{ hostvars['mmonit_server']['ansible_eth0']['ipv4']['address'] }} "
+#ansible_ssh_port: 5555

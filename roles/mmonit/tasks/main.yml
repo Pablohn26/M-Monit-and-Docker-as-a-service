@@ -1,0 +1,27 @@
+---
+
+- name: Download M/Monit 
+  get_url: url=https://mmonit.com/dist/{{ mmonit_package  }} dest=/tmp/{{ mmonit_package  }} sha256sum={{ mmonit_package_sha  }}
+
+
+- name: Unarchive M/Monit package
+  unarchive: src=/tmp/{{ mmonit_package  }}  dest=/opt/ copy=no
+
+- name: Template service file
+  template: src=service.j2 dest="/etc/systemd/system/mmonit.service"
+
+- name: Reload services configuration
+  shell: systemctl daemon-reload
+
+- name: Start service
+  service: name=mmonit state=started
+
+##By default, CentOS 7 block connections to port 8080 (M/Monit web interface port) 
+#- name: Enable connections to M/Monit web interface
+#  firewalld: port=8080/tcp permanent=true state=enabled
+#  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: WORKAROUND Enable connections to M/Monit web interface
+  shell: firewall-cmd --zone=public --add-port=8080/tcp
+
+

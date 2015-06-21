@@ -1,0 +1,6 @@
+---
+
+service_name: wordpress 
+service_description: Wordpress description
+docker_name: docker.io/eugeneware/docker-wordpress-nginx
+service_ports: 80:80

@@ -1,0 +1,4 @@
+check process docker_service with pidfile /var/run/docker.pid
+  start program = "/bin/systemctl start  docker.service"
+  stop program = "/bin/systemctl stop  docker.service"
+  if does not exist then start

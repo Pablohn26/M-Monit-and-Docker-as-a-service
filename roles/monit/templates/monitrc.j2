@@ -1,0 +1,21 @@
+###############################################################################
+## Monit control file
+###############################################################################
+set daemon {{ monit_freq }}               # check services each x seconds
+
+set logfile /var/log/monit.log
+
+set idfile /var/lib/monit/id
+
+set statefile /var/lib/monit/state
+
+set mmonit http://{{ m_monit_user }}:{{ m_monit_pass }}@{{ m_monit_ip }}:{{ m_monit_port }}/collector
+
+set eventqueue basedir /var/monit/ slots 1000
+set httpd port {{ monit_port }} and
+    allow {{ monit_user }}:{{ monit_pass }}      # require user 'admin' with password 'monit'
+    allow @monit           # allow users of group 'monit' to connect (rw)
+    allow @users readonly  # allow users of group 'users' to connect readonly
+
+include /etc/monit.d/*
+

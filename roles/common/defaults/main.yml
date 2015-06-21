@@ -1,0 +1,34 @@
+---
+
+##MMonit
+m_monit_ip: 192.168.122.242
+m_monit_port: 8080
+m_monit_user: monit
+m_monit_pass: monit
+
+##Monit 
+monit_freq: 1
+monit_port: 2812
+monit_user: admin
+monit_pass: monit
+
+##Service 
+service_name: wordpress_default 
+service_description: Wordpress default description
+docker_name: docker.io/eugeneware/docker-wordpress-nginx
+service_ports: 80:80
+
+# Maybe in the future
+service_after: docker
+service_requires: docker
+service_timeoutstartsec: 0 
+service_restart: always
+#service_timeoutstopsec: 60
+service_wantedby:  multi-user
+
+
+
+##M/Monit
+mmonit_package: mmonit-3.5-linux-x64.tar.gz
+mmonit_package_sha: 5e06b96b2d429a0b6ab6bb4830639c87a210e2b02fc05939bd57aa7631b77ec7
+mmonit_folder: mmonit-3.5

@@ -1,0 +1,6 @@
+---
+- name: Install M/Monit
+  hosts: mmonit
+  remote_user: root
+  roles:
+  - mmonit

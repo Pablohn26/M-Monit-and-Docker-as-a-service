@@ -1,0 +1,36 @@
+---
+
+- name: Start container
+  docker:
+    name: "{{ service_name }}"
+    image: docker.io/eugeneware/docker-wordpress-nginx
+    pull: always 
+    insecure_registry: yes
+    ports: "{{ service_ports }}"
+    state: present
+
+- name: Template service file
+  template: src=service.j2 dest="/etc/systemd/system/{{ service_name }}.service"
+
+- name: Reload services configuration
+  shell: systemctl daemon-reload
+
+- name: Start service
+  service: name={{ service_name }} state=started
+
+- name: Creates scripts folder
+  file: path=/var/scripts state=directory
+
+- name: Template pidof script file
+  copy: src=pidof.sh dest="/var/scripts/pidof_{{ service_name }}.sh" mode=0700
+
+- name: Hack to replace docker name in script
+  replace: dest="/var/scripts/pidof_{{ service_name }}.sh" regexp='wordpress' replace={{ service_name }} backup=yes
+
+- name: Run script 
+  shell: /var/scripts/pidof_{{ service_name }}.sh
+
+- name: Create service on monit
+  template: src=service_monit.j2 dest=/etc/monit.d/{{ service_name }}
+
+
